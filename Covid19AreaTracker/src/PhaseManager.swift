@@ -17,6 +17,21 @@ enum PhaseLevel : Int{
 }
 
 class PhaseManager {
+	let localNotifService = LocalNotifService()
+	/**
+	Initializerer
+	
+	Sets the phase level to notDetermined on creation.
+	*/
+	init() {
+		phaseLevel = .notDetermined
+	}
+	
+	/**
+	Tells the current phase level.
+	
+	Depending on the level, the phase will be set accordingly..
+	*/
 	var phaseLevel : PhaseLevel  {
 		didSet {
 			switch phaseLevel {
@@ -31,16 +46,33 @@ class PhaseManager {
 			case .notDetermined:
 				phase = nil
 			}
+			
+			phaseChanged = oldValue != phaseLevel
 		}
 	}
 	
-	var phase : IPhase?  = nil
-	
-	var phaseList : [IPhase] {
-		[DarkRedPhase(), RedPhase(), YellowPhase(), GreenPhase()]
+	/**
+	Tells whether the phase is changed or not and request for local notification.
+	*/
+	private (set) var phaseChanged = false {
+		didSet {
+			if phaseChanged {
+				if let phase = self.phase {
+					self.localNotifService.requestNotification(withTitle: phase.name)
+				}
+			}
+		}
 	}
 	
-	init() {
-		phaseLevel = .notDetermined
+	/**
+	Current phase whose guidelines will be shown.
+	*/
+	var phase : IPhase?  = nil
+	
+	/**
+	Returns the list of all possible phases.
+	*/
+	var phaseList : [IPhase] {
+		[DarkRedPhase(), RedPhase(), YellowPhase(), GreenPhase()]
 	}
 }

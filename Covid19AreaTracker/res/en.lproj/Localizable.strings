@@ -24,3 +24,16 @@
 
 "PublicGatheringCriticalDesc" = "Closing time for food / gastronomy outlets, ban on alcohol sales and alcohol consumption sales in specific public places form 21:00.";
 "PrivateGatheringCriticalDesc" = "Events ( e.g. club meetings, sporting events, cultural events, etc. ) must not exceed 50 persons.";
+
+"GreenPhaseName" = "Green Phase";
+"YellowPhaseName" = "Yellow Phase";
+"RedPhaseName" = "Red Phase";
+"DarkRedPhaseName" = "Dark Red Phase";
+
+"LocationAlertTitle" = "Application needs to track location to detect Covid-19 cases in your area. To enable acess, tap Settings > Location > While Using the App";
+"Settings" = "Settings";
+
+"GuidelinesVCAlertTitle" = "Unable to fetch guidelines for your current area.";
+"Retry" = "Retry";
+
+"AreaNotDeterminedError" = "Unable to determine your current area";

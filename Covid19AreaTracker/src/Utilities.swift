@@ -35,3 +35,20 @@ extension UIViewController {
 		}
 	}
 }
+
+extension Notification.Name {
+	static let LocationDidReceived = Notification.Name(rawValue: "LocationDidReceivedNotification")
+}
+
+enum AreaDetectionError: Error {
+	case notDetermined
+}
+
+extension AreaDetectionError: LocalizedError {
+	public var errorDescription: String? {
+		switch self {
+		case .notDetermined:
+			return NSLocalizedString("AreaNotDeterminedError", comment: "Error")
+		}
+	}
+}

@@ -11,6 +11,7 @@ import UIKit
 protocol IPhase {
 	var color : UIColor { get }
 	var guidelines : [IGuidelines] { get }
+	var name : String { get }
 }
 
 struct GreenPhase : IPhase {
@@ -20,6 +21,10 @@ struct GreenPhase : IPhase {
 	
 	var guidelines: [IGuidelines] {
 		[PublicGatheringLow(), PrivateGatheringLow(), MaskGuidlinesLow()]
+	}
+	
+	var name: String {
+		NSLocalizedString("GreenPhaseName", comment: "Name")
 	}
 }
 
@@ -31,6 +36,10 @@ struct YellowPhase : IPhase {
 	var guidelines: [IGuidelines] {
 		[PublicGatheringModerate(), PrivateGatheringModerate(), MaskGuidlinesModerate()]
 	}
+	
+	var name: String {
+		NSLocalizedString("YellowPhaseName", comment: "Name")
+	}
 }
 
 struct RedPhase : IPhase {
@@ -41,6 +50,10 @@ struct RedPhase : IPhase {
 	var guidelines: [IGuidelines] {
 		[PublicGatheringHigh(), PrivateGatheringHigh(), MaskGuidlinesHigh()]
 	}
+	
+	var name: String {
+		NSLocalizedString("RedPhaseName", comment: "Name")
+	}
 }
 
 struct DarkRedPhase : IPhase {
@@ -50,5 +63,9 @@ struct DarkRedPhase : IPhase {
 	
 	var guidelines: [IGuidelines] {
 		[PublicGatheringCritical(), PrivateGatheringCritical()]
+	}
+	
+	var name: String {
+		NSLocalizedString("DarkRedPhaseName", comment: "Name")
 	}
 }

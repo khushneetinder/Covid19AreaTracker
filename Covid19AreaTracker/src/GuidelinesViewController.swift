@@ -8,7 +8,8 @@
 import UIKit
 
 class GuidelinesViewController: UIViewController {
-	var phaseManager = PhaseManager()
+	let phaseManager = PhaseManager()
+	let locationService = LocationService()
 	
 	@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 	@IBOutlet weak var tableView: UITableView!
@@ -19,13 +20,19 @@ class GuidelinesViewController: UIViewController {
 		
 		tableView.dataSource = self
 		collectionView.dataSource = self
-		
+		let appDelegate = UIApplication.shared.delegate as! AppDelegate
+		appDelegate.areaManager.delegate = self
+		locationService.delegate = self
 		setupUI()
-		
-		fetch()
 	}
 	
-	func setupUI() -> Void {
+	/**
+	This function setup the state of UI elements of `view contoller`
+
+	- returns: Nothing.
+	- warning: Never call this function on background thread.
+	*/
+	private func setupUI() -> Void {
 		tableView.dropShadow(darkMode: isDarkMode)
 		tableView.cornerRadius()
 		
@@ -39,28 +46,9 @@ class GuidelinesViewController: UIViewController {
 		tableView.isHidden = true
 		activityIndicator.startAnimating()
 	}
-	
-	func fetch() -> Void {
-		tableView.isHidden = true
-		activityIndicator.startAnimating()
-		
-		DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-			let kDummyCases : Double = 35
-			let phaseDetector : IPhaseLevelDetector = CaseStrategy(cases: kDummyCases)
-			
-			self.phaseManager.phaseLevel = phaseDetector.get()
-		
-				
-				self.activityIndicator.stopAnimating()
-				self.activityIndicator.isHidden = true
-				self.tableView.isHidden = false
-				self.tableView.reloadData()
-				self.collectionView.reloadData()
-			
-		}
-	}
 }
 
+//MARK: - Table view handling
 extension GuidelinesViewController : UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		var numOfRows = 0
@@ -86,6 +74,7 @@ extension GuidelinesViewController : UITableViewDataSource {
 	}
 }
 
+//MARK: - Collection view handling
 extension GuidelinesViewController : UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		phaseManager.phaseList.count
@@ -99,6 +88,61 @@ extension GuidelinesViewController : UICollectionViewDataSource {
 		}
 
 		return cell
+	}
+}
+
+//MARK: - Phase Detector
+extension GuidelinesViewController : CovidCasesMonitoringDelegate {
+	func succeed(withCases cases: Double) {
+		
+		let phaseDetector : IPhaseLevelDetector = CaseStrategy(cases: cases)
+		self.phaseManager.phaseLevel = phaseDetector.level
+		
+		DispatchQueue.main.async {
+			self.activityIndicator.stopAnimating()
+			self.activityIndicator.isHidden = true
+			self.tableView.isHidden = false
+			self.tableView.reloadData()
+			self.collectionView.reloadData()
+		}
+	}
+	
+	func failed(withError error: Error) {
+		DispatchQueue.main.async {
+			self.activityIndicator.stopAnimating()
+			self.activityIndicator.isHidden = true
+		}
+
+		showAlertIfNeeded(forViewController: self, withMessage: error.localizedDescription)
+	}
+}
+
+//MARK: - Handle Location Access
+extension GuidelinesViewController : LocationAccessMonitoringDelegate {
+	func accessChanged(access: Bool) {
+		locationService.showAlertIfNeeded(forViewController: self)
+	}
+}
+
+//MARK: - Handle Failure Alert 
+extension GuidelinesViewController : Alertable {
+	var shouldShow: Bool {
+		true
+	}
+	
+	var alertTitle: String {
+		NSLocalizedString("GuidelinesVCAlertTitle", comment: "Title")
+	}
+	
+	func defaultAction() {
+		locationService.requestLocation()
+		tableView.isHidden = true
+		activityIndicator.isHidden = false
+		activityIndicator.startAnimating()
+	}
+	
+	var defaultActionTitle: String {
+		NSLocalizedString("Retry", comment: "Title")
 	}
 }
 

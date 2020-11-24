@@ -7,15 +7,20 @@
 
 import Foundation
 
+//MARK: - Phase level detection
 protocol IPhaseLevelDetector {
-	func get() -> PhaseLevel
+	/**
+	Return the phase level depending upon the strategy used.
+	*/
+	var level : PhaseLevel { get }
 }
 
-//MARK: - Detect phase level on the basis of cases per 100K
+//MARK: - Detection strategy: Cases per 100K 
+
 struct CaseStrategy : IPhaseLevelDetector {
 	var cases : Double
 	
-	func get() -> PhaseLevel {
+	var level : PhaseLevel {
 		switch cases {
 		case 0..<35:
 			return .low
