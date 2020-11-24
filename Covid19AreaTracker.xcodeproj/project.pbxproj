@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -36,7 +36,7 @@
 /* Begin PBXFileReference section */
 		0B0CBB296DA25204FE2F9E7C /* Pods-Covid19AreaTracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Covid19AreaTracker.debug.xcconfig"; path = "Target Support Files/Pods-Covid19AreaTracker/Pods-Covid19AreaTracker.debug.xcconfig"; sourceTree = "<group>"; };
 		6BD3F32F7551761622F6090A /* Pods_Covid19AreaTracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Covid19AreaTracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8005C679256D82A30000794B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		8005C679256D82A30000794B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		805A48172566E1ED00309164 /* AlertService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertService.swift; sourceTree = "<group>"; };
 		808F7F7D256827E1005419A3 /* BackdroundFetchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackdroundFetchService.swift; sourceTree = "<group>"; };
 		809D2775255E54860016066F /* GuidelinesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelinesViewController.swift; sourceTree = "<group>"; };
